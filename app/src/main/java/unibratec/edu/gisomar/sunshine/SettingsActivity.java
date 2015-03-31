@@ -63,7 +63,7 @@ public class SettingsActivity extends ActionBarActivity {
          */
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
-
+            //Aula 4C
             String stringValue = newValue.toString();
             if (!mBindingPreference) {
                 if (preference.getKey().equals(getString(R.string.pref_location_key))){

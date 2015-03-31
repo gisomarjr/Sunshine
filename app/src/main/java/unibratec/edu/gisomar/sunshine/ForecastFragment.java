@@ -50,10 +50,10 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onResume() {
         super.onResume();
-        /*if (mLocation != null && !mLocation.equals(
+        if (mLocation != null && !mLocation.equals(
                 Utility.getLocationSetting(getActivity()))) {
             getLoaderManager().restartLoader(FORECAST_LOADER, null, this);
-        }*/
+        }
     }
 
     /**
