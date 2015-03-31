@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,6 +29,19 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     ForecastAdapter adapter;
     ListView listView;
+    String mLocation;
+
+    private static final String[] COLUMNS = {
+            WheatherContract.WeatherEntry.TABLE_NAME +"."+
+                    WheatherContract.WeatherEntry._ID,
+            WheatherContract.WeatherEntry.COLUMN_DATETEXT,
+            WheatherContract.WeatherEntry.COLUMN_SHORT_DESC,
+            WheatherContract.WeatherEntry.COLUMN_MAX_TEMP,
+            WheatherContract.WeatherEntry.COLUMN_MIN_TEMP,
+            WheatherContract.LocationEntry.COLUMN_LOCATION_SETTING,
+            WheatherContract.WeatherEntry.COLUMN_WEATHER_ID
+    };
+    private static final int FORECAST_LOADER = 1;
 
     public ForecastFragment() {
 
@@ -127,7 +141,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         inflater.inflate(R.menu.forecast_fragment, menu);
     }
 
-    /**
+     /**
      *
      * @param item
      * @return
@@ -163,16 +177,31 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
      * @param i
      * @param bundle
      * @return
+     * Aula 4C
      */
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return null;
+        String startDate = WheatherContract.WeatherEntry
+                .getDbDateString(new Date());
+        String sortOrder = WheatherContract.WeatherEntry.COLUMN_DATETEXT +" ASC";
+        mLocation = Utility.getLocationSetting(getActivity());
+        Uri uri = WheatherContract.WeatherEntry
+                .buildWeatherLocationWithStartDate(mLocation, startDate);
+        return new CursorLoader(
+                getActivity(),
+                uri,
+                COLUMNS,
+                null,
+                null,
+                sortOrder);
     }
+
 
     /**
      *
      * @param cursorLoader
      * @param cursor
+     * Aula 4C
      */
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
@@ -184,9 +213,10 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     /**
      *
      * @param cursorLoader
+     * Aula 4C
      */
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
-
+        adapter.swapCursor(null);
     }
 }
