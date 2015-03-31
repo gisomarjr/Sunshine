@@ -27,6 +27,7 @@ import unibratec.edu.gisomar.sunshine.data.WheatherContract;
 public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>  {
 
     ForecastAdapter adapter;
+    ListView listView;
 
     public ForecastFragment() {
 
@@ -74,7 +75,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         adapter = new ForecastAdapter(getActivity(), cur, 0);
 
 
-        ListView listView = (ListView)
+         listView = (ListView)
                 rootView.findViewById(R.id.listview_forecast);
 
         listView.setOnItemClickListener(
@@ -176,6 +177,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
 
+        adapter.swapCursor(cursor);
+        listView.setAdapter(adapter);
     }
 
     /**

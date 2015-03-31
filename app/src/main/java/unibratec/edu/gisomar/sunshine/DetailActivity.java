@@ -115,11 +115,16 @@ public class DetailActivity extends ActionBarActivity {
             if (data.moveToFirst()) {
                 String date = data.getString(data.getColumnIndex(
                         WheatherContract.WeatherEntry.COLUMN_DATETEXT));
-// Outros campos...
+                String descricao = data.getString(data.getColumnIndex(WheatherContract.WeatherEntry.COLUMN_SHORT_DESC));
+                float tempMaxima = data.getFloat(data.getColumnIndex(WheatherContract.WeatherEntry.COLUMN_MAX_TEMP));
+                float tempMinima = data.getFloat(data.getColumnIndex(WheatherContract.WeatherEntry.COLUMN_MIN_TEMP));
+
                 View view = getView();
                 if (view != null) {
                     ((TextView) view.findViewById(R.id.text_forecast)).setText(date);
-// Outros campos...
+                    ((TextView) view.findViewById(R.id.text_forecast_descricao)).setText(descricao);
+                    ((TextView) view.findViewById(R.id.text_forecast_tempMaxima)).setText(tempMaxima + "");
+                    ((TextView) view.findViewById(R.id.text_forecast_tempMinima)).setText(tempMinima + "");
                 }
                // mForecast = date +" - " + dscr +" - " + max +"/"+ min;
                // mShareActionProvider.setShareIntent(createShareIntent());
