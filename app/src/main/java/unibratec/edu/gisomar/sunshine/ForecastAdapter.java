@@ -52,7 +52,18 @@ public class ForecastAdapter extends CursorAdapter {
                         Utility.formatTemperature(cursor.getDouble(idx_min_temp), isMetric);
         String weatherText = Utility.formatDate(cursor.getString(idx_date))
                 + " - " + cursor.getString(idx_short_desc) + " - " + highAndLow;
-        TextView tv = (TextView)view;
-        tv.setText(weatherText);
+
+        //Preenche na tela
+        TextView txtDate = (TextView)view.findViewById(R.id.list_item_date_testview);
+        txtDate.setText(Utility.formatDate(cursor.getString(idx_short_desc)));
+
+        TextView txtDesc = (TextView)view.findViewById(R.id.list_item_forecast_testview);
+        txtDesc.setText(cursor.getString(idx_short_desc));
+
+        TextView txtMax = (TextView)view.findViewById(R.id.list_item_high_textview);
+        txtMax.setText(Utility.formatTemperature(cursor.getDouble(idx_max_temp),isMetric));
+
+        TextView txtMin = (TextView)view.findViewById(R.id.list_item_low_testview);
+        txtMin.setText(Utility.formatTemperature(cursor.getDouble(idx_min_temp),isMetric));
     }
 }
