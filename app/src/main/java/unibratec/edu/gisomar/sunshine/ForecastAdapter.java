@@ -69,17 +69,27 @@ public class ForecastAdapter extends CursorAdapter {
                 WheatherContract.WeatherEntry.COLUMN_DATETEXT);
         int idx_short_desc = cursor.getColumnIndex(
                 WheatherContract.WeatherEntry.COLUMN_SHORT_DESC);
+        int idx_weather_id = cursor.getColumnIndex(
+                WheatherContract.WeatherEntry.COLUMN_WEATHER_ID);
+
+
+
         boolean isMetric = Utility.isMetric(mContext);
-        String highAndLow =
-                Utility.formatTemperature(context,cursor.getDouble(idx_max_temp), isMetric)
-                        + "/" +
-                        Utility.formatTemperature(context,cursor.getDouble(idx_min_temp), isMetric);
-        String weatherText = Utility.formatDate(cursor.getString(idx_date))
-                + " - " + cursor.getString(idx_short_desc) + " - " + highAndLow;
+
+
+
+        //Para os icones
+        int viewType = getItemViewType(cursor.getPosition());
+        int weatherid = cursor.getInt(idx_weather_id);
+
+        ViewHolder holder = (ViewHolder)view.getTag();
+        holder.iconView.setImageResource(viewType == TYPE_TODAY ?
+                        Utility.getArtResourceForWeatherCondition(weatherid) :
+                        Utility.getIconResourceForWeatherCondition(weatherid)  );
 
 
         // ViewHolder - Para armazenar referencia as view's e não ficar utilizando o findViewById
-       ViewHolder holder = (ViewHolder)view.getTag();
+
        holder.dateView.setText(Utility.getFriendlyDayString(context, cursor.getString(idx_date)));
        holder.descriptionView.setText(cursor.getString(idx_short_desc));
        holder.highView.setText(Utility.formatTemperature(context,cursor.getDouble(idx_max_temp),isMetric));
