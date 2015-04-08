@@ -7,6 +7,7 @@ import android.text.format.Time;
 
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -55,7 +56,7 @@ public class Utility {
      * @param isMetric
      * @return
      */
-    public static String formatTemperature(double temperature,
+    public static String formatTemperature(Context context,double temperature,
                                            boolean isMetric) {
         double temp;
         if ( !isMetric ) {
@@ -63,7 +64,7 @@ public class Utility {
         } else {
             temp = temperature;
         }
-        return String.format("%.0f", temp);
+        return context.getString(R.string.format_temperature, temp);
     }
     public static String formatDate(String dateString) {
         Date date = WheatherContract.WeatherEntry.getDateFromDb(dateString);
@@ -77,15 +78,23 @@ public class Utility {
      * to users.  As classy and polished a user experience as "20140102" is, we can do better.
      *
      * @param context Context to use for resource localization
-     * @param dateInMillis The date in milliseconds
+     * @param dateStr The date in milliseconds
      * @return a user-friendly representation of the date.
      */
-    public static String getFriendlyDayString(Context context, long dateInMillis) {
+    public static String getFriendlyDayString(Context context, String dateStr) {
         // The day string for forecast uses the following logic:
         // For today: "Today, June 8"
         // For tomorrow:  "Tomorrow"
         // For the next 5 days: "Wednesday" (just the day name)
         // For all days after that: "Mon Jun 8"
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+        long dateInMillis = 0;
+        try {
+            dateInMillis = formatter.parse(dateStr).getTime();
+        }catch (ParseException e){
+
+        }
 
         Time time = new Time();
         time.setToNow();

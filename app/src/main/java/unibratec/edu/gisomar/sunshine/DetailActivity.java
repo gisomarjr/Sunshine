@@ -113,18 +113,27 @@ public class DetailActivity extends ActionBarActivity {
         public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
             if (data.moveToFirst()) {
-                String date = data.getString(data.getColumnIndex(
+
+                boolean isMetric = Utility.isMetric(getActivity());
+
+                String date = Utility.getFriendlyDayString(getActivity(),data.getString(data.getColumnIndex(WheatherContract.WeatherEntry.COLUMN_DATETEXT)));
+                String dscr = data.getString(data.getColumnIndex(WheatherContract.WeatherEntry.COLUMN_SHORT_DESC));
+                String min = Utility.formatTemperature(getActivity(),data.getColumnIndex(WheatherContract.WeatherEntry.COLUMN_MIN_TEMP),isMetric);
+
+
+               /* String date = data.getString(data.getColumnIndex(
                         WheatherContract.WeatherEntry.COLUMN_DATETEXT));
                 String descricao = data.getString(data.getColumnIndex(WheatherContract.WeatherEntry.COLUMN_SHORT_DESC));
                 float tempMaxima = data.getFloat(data.getColumnIndex(WheatherContract.WeatherEntry.COLUMN_MAX_TEMP));
-                float tempMinima = data.getFloat(data.getColumnIndex(WheatherContract.WeatherEntry.COLUMN_MIN_TEMP));
+                float tempMinima = data.getFloat(data.getColumnIndex(WheatherContract.WeatherEntry.COLUMN_MIN_TEMP));*/
 
                 View view = getView();
                 if (view != null) {
                     ((TextView) view.findViewById(R.id.text_forecast)).setText(date);
-                    ((TextView) view.findViewById(R.id.text_forecast_descricao)).setText(descricao);
-                    ((TextView) view.findViewById(R.id.text_forecast_tempMaxima)).setText(tempMaxima + "");
-                    ((TextView) view.findViewById(R.id.text_forecast_tempMinima)).setText(tempMinima + "");
+                    ((TextView) view.findViewById(R.id.text_forecast_descricao)).setText(dscr);
+                    ((TextView) view.findViewById(R.id.text_forecast_tempMinima)).setText(min + "");
+                    //((TextView) view.findViewById(R.id.text_forecast_tempMaxima)).setText(max + "");
+
                 }
                // mForecast = date +" - " + dscr +" - " + max +"/"+ min;
                // mShareActionProvider.setShareIntent(createShareIntent());
