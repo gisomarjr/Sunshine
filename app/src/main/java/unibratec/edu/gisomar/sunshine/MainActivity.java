@@ -9,9 +9,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements Callback {
+
+    private boolean isTablet;
 
     /**
      *
@@ -21,12 +25,54 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new ForecastFragment())
-                    .commit();
-        }
+
+        //DetailFragment - fazer! - Aula 5C
+        //verifica se é tablet ou celular
+        isTablet = Utility.isTable(MainActivity.this);
+
+        if(isTablet)
+
+            if (savedInstanceState == null) {
+                
+                String today = new SimpleDateFormat().format(Utility.DATE_FORMAT)
+                        .format(new Date());
+                
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.container, new DetailFragment().newInstance())
+                        .commit();
+            }
     }
+
+    /**
+     * DetailFragment
+     * ----------1ª alterar metodo onCreateLoader-------
+     * Aula 5c
+     *
+     * if(getActivity().getIntent()getData
+     * Uri uri testar se é diferente de null
+     * else return null depois do if
+     *
+     * antes do if
+     *
+     * String date = getArguments().getString("weather_date");
+     *   Uri uri = WeatherContrarct.wheatherEntry.builWeatherLocationWithDate(locationSetting,date);
+     *
+     *   //---retirar outra URI antiga
+     *
+     * ----------2ª alteração--------------
+     *
+     * //antes do oncreate
+     * public static DetailFragment newInstance(String date){
+     *     Bundle params = new Bundle();
+     *     params.putString("weather_date",date);
+     *
+     *     DetailFragment df = new DetailFragment();
+     *     df.setArguments(params);
+     *     return df;
+     * }
+     *
+     */
 
 
     /**
@@ -81,4 +127,25 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
+    /**
+     * Clique do item para verificar se ele vai para o detail ou para um fragment
+     * caso for tablet
+     * Aula 5C
+     * @param date
+     */
+    @Override
+    public void onItemSelected(String date) {
+
+        if(isTablet){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, DetailFragment.newInstance(date))
+                    .commit();
+        }else{
+            Intent it = new Intent(this, DetailActivity.class);
+            it.putExtra("weather_date",date);
+            startActivity(it);
+        }
+
+    }
 }

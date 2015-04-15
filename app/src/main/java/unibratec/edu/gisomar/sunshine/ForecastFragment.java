@@ -105,8 +105,9 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                         //startActivity(it);
 
 
-                        //Aula 4C
 
+                        //Aula 4C
+                        //verificar codigo antigo -- :/
                         Cursor cursor = (Cursor) parent.getItemAtPosition(position);
                         if (cursor != null) {
                             String locationSetting =
@@ -120,6 +121,17 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                             intent.setData(uri);
                             startActivity(intent);
                         }
+
+                        //Aula 5C
+                        if (cursor != null) {
+                            String datStr = cursor.getString(cursor.getColumnIndex(WheatherContract.WeatherEntry.COLUMN_DATETEXT));
+
+                                if(getActivity() instanceof Callback){
+                                    ((Callback) getActivity()).onItemSelected(datStr);
+                                }
+
+                        }
+
                     }
 
 

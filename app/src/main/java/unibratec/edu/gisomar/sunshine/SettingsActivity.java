@@ -1,11 +1,11 @@
 package unibratec.edu.gisomar.sunshine;
 
+import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 
 import unibratec.edu.gisomar.sunshine.data.WheatherContract;
 
@@ -89,4 +89,6 @@ public class SettingsActivity extends ActionBarActivity {
             return true;
         }
     }
+
+
 }

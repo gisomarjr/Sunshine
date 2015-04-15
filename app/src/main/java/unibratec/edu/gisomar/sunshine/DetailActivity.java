@@ -3,6 +3,7 @@ package unibratec.edu.gisomar.sunshine;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -30,11 +31,16 @@ public class DetailActivity extends ActionBarActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_activity2);
         if (savedInstanceState == null) {
+
+            //aula 5C
+
+            String date = getIntent().getStringExtra("weather_date");
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, DetailFragment.newInstance(date))
                     .commit();
         }
     }
@@ -151,5 +157,8 @@ public class DetailActivity extends ActionBarActivity {
             super.onActivityCreated(savedInstanceState);
             getLoaderManager().initLoader(DETAIL_LOADER_ID, null, this);
         }
+
+
     }
+
 }

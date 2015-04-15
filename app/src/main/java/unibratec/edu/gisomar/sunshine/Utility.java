@@ -235,4 +235,9 @@ public class Utility {
         }
         return -1;
     }
+
+    //aula 5c
+    public static boolean isTable(Context context){
+        return context.getResources().getBoolean(R.bool.isTablet);
+    }
 }

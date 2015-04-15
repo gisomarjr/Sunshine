@@ -9,9 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import unibratec.edu.gisomar.sunshine.data.WheatherContract;
 
 public class ForecastAdapter extends CursorAdapter {
@@ -22,13 +19,20 @@ public class ForecastAdapter extends CursorAdapter {
     public static final int TYPE_TODAY = 0;
     public static final int TYPE_REGULAR = 1;
 
+
+
     @Override
     public int getViewTypeCount() {
-        return 2;
+        //alteração  Aula 5C -- Remover item “Today" para tablet
+        return Utility.isTable(mContext) ? TYPE_TODAY : TYPE_REGULAR;
     }
+
     @Override
     public int getItemViewType(int position) {
-        return position == 0 ? TYPE_TODAY : TYPE_REGULAR;
+      //  return position == 0 ? TYPE_TODAY : TYPE_REGULAR; -- alteração aula 5c
+
+        //Aula 5 C slide pagina 55 -- Remover item “Today" para tablet
+        return  position == 0 && !Utility.isTable(mContext) ? TYPE_TODAY : TYPE_REGULAR;
     }
 
     /**
